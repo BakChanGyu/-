@@ -11,7 +11,7 @@ public class Main {
 //        StringTokenizer st = new StringTokenizer(br.readLine());
 
         String comm = "";
-
+        int id = 1;
         System.out.println("== 명언 앱 ==");
         while (!comm.equals("종료")) {
             System.out.print("명령) ");
@@ -21,7 +21,7 @@ public class Main {
                 String quote = br.readLine();
                 System.out.print("작가 : ");
                 String author = br.readLine();
-                System.out.println("1번 명언이 등록되었습니다.");
+                System.out.printf("%d번 명언이 등록되었습니다.\n", id++);
             }
         }
 
