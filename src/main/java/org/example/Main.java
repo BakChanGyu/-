@@ -1,10 +1,9 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -14,7 +13,9 @@ public class Main {
         List<Quotes> quotesList = new ArrayList<>();
         String comm = "";
         int id = 1;
+
         System.out.println("== 명언 앱 ==");
+
         while (!comm.equals("종료")) {
             System.out.print("명령) ");
             comm = br.readLine();
@@ -39,9 +40,27 @@ public class Main {
             if (comm.equals("목록")) {
                 System.out.println("번호 / 작가 / 명언");
                 System.out.println("----------------------");
-                quotesList.stream()
-                        .sorted((e1, e2) -> e2.getId() - e1.getId())
-                        .forEach(e -> System.out.println(e.toString()));
+
+                try {
+                    File file = new File("E:/study/QuotesApp/quote.txt");
+
+                    if (file.exists()) {
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                        String line = bufferedReader.readLine();
+                        while (line != null) {
+                            System.out.println(line);
+                            line = bufferedReader.readLine();
+                        }
+                    }
+//                    else {
+//                        quotesList.stream()
+//                                .sorted((e1, e2) -> e2.getId() - e1.getId())
+//                                .forEach(e -> System.out.println(e.toString()));
+//                    }
+                }
+                catch (Exception e) {
+                    e.getStackTrace();
+                }
             }
 
             if (comm.equals("삭제")) {
@@ -86,6 +105,23 @@ public class Main {
                 }
             }
         }
+
+        File file = new File("E:/study/QuotesApp/quote.txt");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+
+        quotesList.stream()
+                .forEach(e -> {
+                    try {
+                        writer.write(e.toString());
+                        writer.newLine();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+        writer.flush();
+        writer.close();
+
+        System.out.println("명언 앱을 종료합니다.");
     }
 }
 
