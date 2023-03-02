@@ -10,9 +10,19 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //        StringTokenizer st = new StringTokenizer(br.readLine());
 
+        String comm = "";
         System.out.println("== 명언 앱 ==");
-        System.out.println("명령) 종료");
-        String comm = br.readLine();
+        while (!comm.equals("종료")) {
+            System.out.print("명령) ");
+            comm = br.readLine();
+            if (comm.equals("등록")) {
+                System.out.print("명언 : ");
+                String quote = br.readLine();
+                System.out.print("작가 : ");
+                String author = br.readLine();
+            }
+        }
+
 
 
     }
