@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -50,10 +52,20 @@ public class Main {
                 int rmIndex = rmComm.indexOf("=");
                 int rmId = Integer.parseInt(rmComm.substring(rmIndex + 1));
 
-                quotesList = quotesList.stream()
-                        .filter(e -> e.getId() != rmId)
-                        .collect(Collectors.toList());
-                System.out.printf("%d번 명언이 삭제되었습니다.\n", rmId);
+                boolean isExist = false;
+
+                for (Quotes quote : quotesList) {
+                    if (quote.getId() == rmId) {
+                        quotesList.remove(quote);
+                        System.out.printf("%d번 명언이 삭제되었습니다.\n", rmId);
+                        isExist = true;
+                        break;
+                    }
+                }
+
+                if (isExist == false) {
+                    System.out.printf("%d번 명언은 존재하지 않습니다.\n", rmId);
+                }
             }
         }
     }
