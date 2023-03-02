@@ -1,9 +1,10 @@
 package org.example;
 
+import com.google.gson.JsonObject;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -52,11 +53,11 @@ public class Main {
                             line = bufferedReader.readLine();
                         }
                     }
-//                    else {
-//                        quotesList.stream()
-//                                .sorted((e1, e2) -> e2.getId() - e1.getId())
-//                                .forEach(e -> System.out.println(e.toString()));
-//                    }
+                    else {
+                        quotesList.stream()
+                                .sorted((e1, e2) -> e2.getId() - e1.getId())
+                                .forEach(e -> System.out.println(e.toString()));
+                    }
                 }
                 catch (Exception e) {
                     e.getStackTrace();
@@ -103,6 +104,23 @@ public class Main {
                 if (isExist == false) {
                     System.out.printf("%d번 명언은 존재하지 않습니다.\n", upId);
                 }
+            }
+
+            if (comm.equals("빌드")) {
+                JsonObject json = new JsonObject();
+                for (Quotes quote : quotesList) {
+                    json.addProperty("id", quote.getId());
+                    json.addProperty("content", quote.getQuote());
+                    json.addProperty("author", quote.getAuthor());
+                }
+
+                File file = new File("E:/study/QuotesApp/quote.json");
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write(String.valueOf(json));
+                writer.flush();
+                writer.close();
+
+                System.out.println("quote.json 파일의 내용이 갱신되었습니다.");
             }
         }
 
