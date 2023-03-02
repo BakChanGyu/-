@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -23,10 +19,10 @@ public class Main {
             System.out.print("명령) ");
             comm = br.readLine();
             int index = -1;
-            String rmComm = "";
+            String subComm = "";
             index = comm.indexOf("?");
             if (index != -1) {
-                rmComm = comm.substring(index + 1);
+                subComm = comm.substring(index + 1);
                 comm = comm.substring(0, index);
             }
 
@@ -49,9 +45,8 @@ public class Main {
             }
 
             if (comm.equals("삭제")) {
-                int rmIndex = rmComm.indexOf("=");
-                int rmId = Integer.parseInt(rmComm.substring(rmIndex + 1));
-
+                int rmIndex = subComm.indexOf("=");
+                int rmId = Integer.parseInt(subComm.substring(rmIndex + 1));
                 boolean isExist = false;
 
                 for (Quotes quote : quotesList) {
@@ -62,9 +57,32 @@ public class Main {
                         break;
                     }
                 }
-
                 if (isExist == false) {
                     System.out.printf("%d번 명언은 존재하지 않습니다.\n", rmId);
+                }
+            }
+
+            if (comm.equals("수정")) {
+                int upIndex = subComm.indexOf("=");
+                int upId = Integer.parseInt(subComm.substring(upIndex + 1));
+                boolean isExist = false;
+
+                for (Quotes quote : quotesList) {
+                    if (quote.getId() == upId) {
+                        System.out.println("명언(기존) :" + quote.getQuote());
+                        System.out.print("명언 : ");
+                        quote.setQuote(br.readLine());
+
+                        System.out.println("작가(기존) :" + quote.getAuthor());
+                        System.out.print("작가 : ");
+                        quote.setAuthor(br.readLine());
+
+                        isExist = true;
+                        break;
+                    }
+                }
+                if (isExist == false) {
+                    System.out.printf("%d번 명언은 존재하지 않습니다.\n", upId);
                 }
             }
         }
